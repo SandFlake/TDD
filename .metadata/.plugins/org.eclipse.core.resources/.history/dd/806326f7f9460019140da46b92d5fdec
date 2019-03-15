@@ -1,0 +1,20 @@
+package rovar;
+
+import org.junit.Test; 
+
+
+public class TestA {
+	
+	private static String nada = null; 
+	
+//	public static void main(String[] args) {
+//		rovar.enrov(nada);
+//	}
+	
+	@Test
+	public void testEmpty() {
+		rovar.enrov(nada);
+	}
+}
+
+

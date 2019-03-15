@@ -1,0 +1,18 @@
+package rovar;
+
+
+
+public class TestA {
+	
+	private static String nada = null; 
+	
+	public static void main(String[] args) {
+		rovar.enrov(nada);
+	}
+	
+//	public void testEmpty() {
+//		rovar.enrov(nada);
+//	}
+}
+
+
