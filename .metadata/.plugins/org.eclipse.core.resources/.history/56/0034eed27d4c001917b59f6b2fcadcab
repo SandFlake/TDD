@@ -1,0 +1,334 @@
+package clock;
+
+
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+import rovar.Clock; 
+
+
+public class TestRunner {
+	
+	//Default mode for clock is S1DisplayTime
+	private Clock clock = new Clock();
+	
+	
+	//6 Tests that should run correctly 
+		
+	// S1 Display Time --> S3 Change Time
+	// Correct 
+	@Test 
+	public void testCorrect1() {
+		Clock clock = new Clock();
+		String currentMode = clock.ready();
+		assertEquals("Change Time", currentMode);
+		}
+	
+	
+	//S2 Display Date --> S4 Change Date
+	//Correct
+	@Test
+	public void testCorrect2() {
+		Clock clock = new Clock();
+		clock.changeMode(); 
+		String currentMode = clock.ready();
+		assertEquals("Change Date", currentMode);
+	}
+	
+	//S1 Display Time --> S2 Display Date
+	//Correct
+	@Test
+	public void testCorrect3() {
+		Clock clock = new Clock();
+		String currentMode = clock.changeMode();
+		assertEquals("1/1/2000", currentMode);
+	}
+	
+	//S2 Display Date --> S1 Display Time
+	//Correct
+	@Test
+	public void testCorrect4() {
+		Clock clock = new Clock();
+		clock.changeMode();
+		String currentMode = clock.changeMode();
+		assertEquals("0:0:0", currentMode);
+		
+	}
+	
+	//S3 Change Time --> S1 Display Time
+	//Correct
+	@Test
+	public void testCorrect5() {
+		Clock clock = new Clock();
+		clock.ready();
+		String currentMode = clock.set(5, 27, 53);
+		assertEquals("5:27:53", currentMode);
+	}
+	
+	//S4 Change Date --> S2 Display Date
+	//Correct
+	@Test 
+	public void testCorrect6() {
+		Clock clock = new Clock();
+		clock.changeMode();
+		clock.ready();
+		String currentMode = clock.set(21, 3, 2019);
+		assertEquals("21/3/2019", currentMode);
+		
+	}
+	
+	
+	
+	// 6 tests that should run and get failures 
+	
+	//S1 Display Time --> want to set time, without getting ready first and going to Change Time S3 
+	//Invalid transition
+	@Test
+	public void testFail1() {
+		Clock clock = new Clock();
+		String currentMode = clock.set(2, 24, 28);
+		assertEquals("2:24:28", currentMode);
+	}
+	
+	//S2 Display Date --> want to set date, without getting ready first and going to Change Date S4 
+	//Invalid transition
+	@Test
+	public void testFail2() {
+		Clock clock = new Clock();
+		clock.changeMode();
+		String currentMode = clock.set(15, 07, 1989);
+		assertEquals("15/07/1989", currentMode);
+	}
+	
+	
+	//S3 Change Time --> want to change mode to Display Date, but this shouldn't work as we first need to set time and go to Display Time
+	//Invalid Transition
+	@Test
+	public void testFail3() {
+		Clock clock = new Clock();
+		clock.ready();
+		String currentMode = clock.changeMode(); 
+		assertEquals("Display Date", currentMode);
+	}
+	
+	//S4 Change Date --> want to change mode to Display Time, but this shouldn't work as we first need to set the date and go to Display Date
+	//Invalid transition
+	@Test
+	public void testFail4() {
+		Clock clock = new Clock();
+		clock.changeMode();
+		clock.ready();
+		String currentMode = clock.changeMode();
+		assertEquals("Display Time", currentMode);
+	}
+	
+	//S3 Change Time --> want to get ready to change time, but this shouldn't work as we are already in S3 Change Time
+	//Invalid Transition
+	@Test
+	public void testFail5() {
+		Clock clock = new Clock();
+		clock.ready();
+		String currentMode = clock.ready();
+		assertEquals("Change Time", currentMode);
+	}
+	
+	//S4 Change Date --> want to get ready to change date, but this shouln't work as we are already in S4 Change Date
+	//Invalid Transition
+	public void testFail6() {
+		Clock clock = new Clock();
+		clock.changeMode();
+		clock.ready();
+		String currentMode = clock.ready();
+		assertEquals("Change Date", currentMode);
+	}
+	
+	
+	
+	
+	
+	// 24 Boundary Value Analysis Tests
+	
+	//  1950 <= year <= 2200
+	// 1 <= month <= 12
+	// 1 <= day <= 31
+	
+	// 0 <= hour <= 23
+	// 0 <= minute <= 59
+	// 0 <= second <= 59
+	
+	@Test
+	public void testBVA1() {
+		Clock clock = new Clock();	
+		clock.changeMode();	
+		clock.ready();
+		assertEquals( "1900-5-5", clock.set(1899, 5, 5));			// TEST YEAR
+	}
+	@Test
+	public void testBVA2() {
+		Clock clock = new Clock();	
+		clock.changeMode();	
+		clock.ready();
+		assertEquals( "1900-5-5", clock.set(1900, 5, 5));			// TEST YEAR
+	}
+	@Test
+	public void testBVA3() {
+		Clock clock = new Clock();	
+		clock.changeMode();
+		clock.ready();
+		assertEquals( "1900-5-5", clock.set(2101, 5, 5));			// TEST YEAR
+	}
+	@Test
+	public void testBVA4() {
+		Clock clock = new Clock();	
+		clock.changeMode();	
+		clock.ready();
+		assertEquals( "2100-5-5", clock.set(2100, 5, 5));			// TEST YEAR
+	}
+	
+	
+	
+	@Test
+	public void testBVA5() {
+		Clock clock = new Clock();	
+		clock.changeMode();	
+		clock.ready();
+		assertEquals( "2000-1-5", clock.set(2000, 0, 5));			// TEST MONTH
+	}
+	@Test
+	public void testBVA6() {
+		Clock clock = new Clock();	
+		clock.changeMode();
+		clock.ready();
+		assertEquals( "2000-1-5", clock.set(2000, 1, 5));			// TEST MONTH
+	}
+	@Test
+	public void testBVA7() {
+		Clock clock = new Clock();	
+		clock.changeMode();	
+		clock.ready();
+		assertEquals( "2000-1-5", clock.set(2000, 13, 5));			// TEST MONTH
+	}
+	@Test
+	public void testBVA8() {
+		Clock clock = new Clock();	
+		clock.changeMode();
+		clock.ready();
+		assertEquals( "2000-12-5", clock.set(2000, 12, 5));			// TEST MONTH
+	}
+	
+	
+	
+	@Test
+	public void testBVA9() {
+		Clock clock = new Clock();	
+		clock.changeMode();	
+		clock.ready();
+		assertEquals( "2000-5-1", clock.set(2000, 5, 0));			// TEST DAY
+	}
+	@Test
+	public void testBVA10() {
+		Clock clock = new Clock();	
+		clock.changeMode();	
+		clock.ready();
+		assertEquals( "2000-5-1", clock.set(2000, 5, 1));			// TEST DAY
+	}
+	@Test
+	public void testBVA11() {
+		Clock clock = new Clock();	
+		clock.changeMode();	
+		clock.ready();
+		assertEquals( "2000-5-1", clock.set(2000, 5, 32));			// TEST DAY
+	}
+	@Test
+	public void testBVA12() {
+		Clock clock = new Clock();	
+		clock.changeMode();	
+		clock.ready();
+		assertEquals( "2000-5-31", clock.set(2000, 5, 31));			// TEST DAY
+	}
+	
+	
+	
+	@Test
+	public void testBVA13() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "0:30:30", clock.set(-1, 30, 30));			// TEST HOUR
+	}
+	@Test
+	public void testBVA14() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "0:30:30", clock.set(0, 30, 30));				// TEST HOUR
+	}
+	@Test
+	public void testBVA15() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "0:30:30", clock.set(24, 30, 30));			// TEST HOUR
+	}
+	@Test
+	public void testBVA16() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "23:30:30", clock.set(23, 30, 30));			// TEST HOUR
+	}
+	
+	
+	@Test
+	public void testBVA17() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "12:0:30", clock.set(12, -1, 30));			// TEST MINUTE
+	}
+	@Test
+	public void testBVA18() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "12:0:30", clock.set(12, 0, 30));			// TEST MINUTE
+	}
+	@Test
+	public void testBVA19() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "12:0:30", clock.set(12, 60, 30));			// TEST MINUTE
+	}
+	@Test
+	public void testBVA20() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "12:59:30", clock.set(12, 59, 30));			// TEST MINUTE
+	}
+	
+	
+	
+	@Test
+	public void testBVA21() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "12:30:0", clock.set(12, 30, -1));			// TEST SECOND
+	}
+	@Test
+	public void testBVA22() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "12:30:0", clock.set(12, 30, 0));			// TEST SECOND
+	}
+	@Test
+	public void testBVA23() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "12:30:0", clock.set(12, 30, 60));			// TEST SECOND
+	}
+	@Test
+	public void testBVA24() {
+		Clock clock = new Clock();	
+		clock.ready();
+		assertEquals( "12:30:59", clock.set(12, 30, 59));			// TEST SECOND
+	}
+	
+}
+
+
+
+

@@ -1,0 +1,34 @@
+package clock;
+
+public class Clock {
+	
+	
+	private Time theTime;
+	private Date theDate;
+	private int p1, p2, p3; 
+	State startingState = State.S1DisplayTime; 
+	
+	
+	
+	public enum State {
+		S1DisplayTime,
+		S2DisplayDate,
+		S3ChangeTime,
+		S4ChangeDate
+	} 
+	
+	public String changeMode() {
+		return null;
+		
+	}
+
+	public String ready() {
+		return null;
+	}
+	
+	public String set(int p1, int p2, int p3) {
+		return null;
+		
+	}
+	
+}

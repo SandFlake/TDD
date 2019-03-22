@@ -1,0 +1,24 @@
+package clock;
+
+
+import static org.junit.Assert.*;
+import org.junit.Test; 
+
+
+public class TestRunner {
+	
+	//Default mode for clock is S1DisplayTime
+	private Clock clock = new Clock();
+	
+		
+	// S1 Display Time --> S3 Change Time
+	// Correct 
+	@Test 
+	public void test1() {
+		Clock clock = new Clock();
+		String currentMode = clock.ready();
+		assertEquals("CHANGE TIME", currentMode);
+		}
+	}
+
+

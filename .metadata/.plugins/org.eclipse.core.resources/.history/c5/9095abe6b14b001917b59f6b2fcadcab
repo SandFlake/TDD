@@ -1,0 +1,81 @@
+package clock;
+
+enum States { 
+	DISPLAY_TIME, 	// S1
+	DISPLAY_DATE, 	// S2
+	CHANGE_TIME,// S3
+	CHANGE_DATE // S4
+}
+
+public class Clock {
+	private Time time = new Time();
+	private Date date = new Date();
+	private States currentState = States.DISPLAY_TIME; // DEFAULT: S1
+	
+	public String changeMode() {
+		String result = null;
+		switch(currentState) {
+			case DISPLAY_TIME: // S1
+				currentState = States.DISPLAY_DATE;
+				result = date.showDate();
+				break;
+			case DISPLAY_DATE: // S2
+				currentState = States.DISPLAY_TIME;
+				result = time.showTime(); 
+				break;
+			case CHANGE_TIME: // S3
+				result = "CHANGE_TIME";	// Nothing happens, stays in the same state.
+				break;
+			case CHANGE_DATE:  // S4
+				result = "CHANGE_DATE";	// Nothing happens, stays in the same state.
+				break;
+		}
+		return result;
+	}
+	
+	public String ready() {
+		String result = null;
+		switch(currentState) {
+			case DISPLAY_TIME:
+				currentState = States.CHANGE_TIME;
+				result = "CHANGE_TIME";
+				break;
+			case DISPLAY_DATE:
+				currentState = States.CHANGE_DATE;
+				result = "CHANGE_DATE";
+				break;
+			case CHANGE_TIME:
+				result = "CHANGE_TIME";	// Nothing happens, stays in the same state.
+				break;
+			case CHANGE_DATE:
+				result = "CHANGE_DATE";	// Nothing happens, stays in the same state.
+				break;
+		}
+		return result;
+	}
+	
+	public String set(int p1, int p2, int p3) {
+		String result = null;
+		switch(currentState) {
+			case DISPLAY_TIME: 
+				result = "DISPLAY_TIME"; // Nothing happens, stays in the same state.
+				break;
+			case DISPLAY_DATE: 
+				result = "DISPLAY_DATE"; // Nothing happens, stays in the same state.
+				break;
+			case CHANGE_TIME: 
+				time.timeSet(p1, p2, p3);
+				currentState = States.DISPLAY_TIME;
+				result = time.showTime(); 
+				break;
+			case CHANGE_DATE: 
+				date.dateSet(p1, p2, p3);
+				currentState = States.DISPLAY_DATE;
+				result = date.showDate();
+			break;
+		}	
+		return result;
+	}
+	
+	
+}

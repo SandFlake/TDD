@@ -1,0 +1,21 @@
+package clock;
+
+
+import static org.junit.Assert.assertEquals;
+
+import clock.Clock.State; 
+
+public class TestRunner {
+	
+	private Clock clock = new Clock();
+	
+		
+	
+	public void test1() {
+		Clock clock = new Clock();
+		String result = clock.ready();
+		assertEquals("CHANGE_TIME", result);
+		}
+	}
+
+

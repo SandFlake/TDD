@@ -13,4 +13,5 @@
 <fullyQualifiedTypeName name="org.junit.runner.JUnitCore"/>
 <fullyQualifiedTypeName name="org.junit.runner.notification.Failure"/>
 <fullyQualifiedTypeName name="org.junit.runner.Result"/>
+<fullyQualifiedTypeName name="clock.Clock.State"/>
 </qualifiedTypeNameHistroy>
