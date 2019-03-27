@@ -96,7 +96,7 @@ public class TestRunner {
 		Clock clock = new Clock();
 		clock.changeMode();
 		String currentMode = clock.set(15, 07, 1989);
-		assertEquals("Display Date", currentMode);
+		assertEquals("15/07/1989", currentMode);
 	}
 	
 	
@@ -107,7 +107,7 @@ public class TestRunner {
 		Clock clock = new Clock();
 		clock.ready();
 		String currentMode = clock.changeMode(); 
-		assertEquals("Change Time", currentMode);
+		assertEquals("Display Date", currentMode);
 	}
 	
 	//S4 Change Date --> want to change mode to Display Time, but this shouldn't work as we first need to set the date and go to Display Date
@@ -118,7 +118,7 @@ public class TestRunner {
 		clock.changeMode();
 		clock.ready();
 		String currentMode = clock.changeMode();
-		assertEquals("Change Date", currentMode);
+		assertEquals("Display Time", currentMode);
 	}
 	
 	//S3 Change Time --> want to get ready to change time, but this shouldn't work as we are already in S3 Change Time
